@@ -11,7 +11,8 @@ frontend:
     preBuild:
       commands:
         - echo "preBuild phase"
-        - echo "VITE_GOOGLE_MAPS_API_KEY=$VITE_API_KEY" >> .env
+        - echo "VITE_GOOGLE_MAPS_API_KEY=$(aws ssm get-parameter --name "/amplify/shared/d1yb63ho6vg980/VITE_API_KEY") >> .env
+        # - echo "VITE_GOOGLE_MAPS_API_KEY=$VITE_API_KEY" >> .env
         - cat .env
     build:
       commands:
