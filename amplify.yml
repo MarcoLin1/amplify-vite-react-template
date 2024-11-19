@@ -11,9 +11,19 @@ frontend:
     preBuild:
       commands:
         - echo "preBuild phase"
-        - aws ssm get-parameter --name "/amplify/d1yb63ho6vg980/VITE_API_KEY" --with-decryption
-        - printenv | grep VITE
-        - echo "VITE_API_KEY_2=$VITE_API_KEY" >> .env
+        - echo "Debug: Checking SSM parameters..."
+        - echo "Trying branch specific path..."
+        - aws ssm get-parameter --name "/amplify/d1yb63ho6vg980/main/VITE_API_KEY" --with-decryption || echo "Not found in main branch path"
+
+        - echo "Trying app specific path..."
+        - aws ssm get-parameter --name "/amplify/d1yb63ho6vg980/VITE_API_KEY" --with-decryption || echo "Not found in app specific path"
+
+        - echo "Trying shared path..."
+        - aws ssm get-parameter --name "/amplify/shared/d1yb63ho6vg980/VITE_API_KEY" --with-decryption || echo "Not found in shared path"
+
+         - export VITE_API_KEY=$(aws ssm get-parameter --name "/amplify/d1yb63ho6vg980/main/VITE_API_KEY" --with-decryption --query Parameter.Value --output text || true)
+
+        - echo "VITE_API_KEY=$VITE_API_KEY" >> .env
         - echo "VITE_NEW_API=556789" >> .env
         - cat .env
     build:
