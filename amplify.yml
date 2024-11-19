@@ -11,7 +11,7 @@ frontend:
     preBuild:
       commands:
         - echo "preBuild phase"
-        - echo "VITE_GOOGLE_MAPS_API_KEY=$VITE_GOOGLE_MAPS_API_KEY" >> .env
+        - echo "VITE_API_KEY=$VITE_API_KEY" >> .env
         - echo "VITE_NEW_API=556789" >> .env
         - cat .env
     build:
