@@ -21,8 +21,9 @@ frontend:
         - 'echo "Trying shared path..."'
         - 'aws ssm get-parameter --name "/amplify/shared/d1yb63ho6vg980/VITE_API_KEY" --with-decryption || echo "Not found in shared path"'
         
-        - 'export VITE_API_KEY=$(aws ssm get-parameter --name "/amplify/d1yb63ho6vg980/main/VITE_API_KEY" --with-decryption --query Parameter.Value --output text || true)'
+        - 'export VITE_API_KEY=$(aws ssm get-parameter --name "/amplify/shared/d1yb63ho6vg980/VITE_API_KEY" --with-decryption --query Parameter.Value --output text)'
         - 'echo "VITE_API_KEY=$VITE_API_KEY" >> .env'
+        
         - 'cat .env'
     build:
       commands:
